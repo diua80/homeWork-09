@@ -1,6 +1,7 @@
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+let selectedDate = null;
 
 flatpickr("#datetime-picker", {
   enableTime: true,
@@ -9,8 +10,8 @@ flatpickr("#datetime-picker", {
   minuteIncrement: 1,
   
   onClose(selectedDates) {
-    const currentDate = new Date().getTime();
-    const selectedDate = selectedDates[0].getTime();
+    const currentDate = new Date();
+    selectedDate = selectedDates[0];
 
     if (selectedDate <= currentDate) {
       Notify.warning('Please choose a date in the future');
@@ -34,10 +35,14 @@ function pad(value) {
 }
 
 function startTimer() {
-  const selectedDate = new Date(flatpickr("#datetime-picker").selectedDates[0]).getTime();
+  // const selectedDate = new Date(flatpickr("#datetime-picker").selectedDates[0]).getTime();
   countdown = setInterval(() => {
     const now = new Date();
     const distance = selectedDate - now;
+
+    console.log(selectedDate);
+    console.log(now);
+    console.log(distance);
 
     if (distance < 0) {
       clearInterval(countdown);
